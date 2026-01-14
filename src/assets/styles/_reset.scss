@@ -1,0 +1,32 @@
+/* 基础重置样式 */
+* {
+  box-sizing: border-box; /* 非常重要：让padding不撑大盒子 */
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden; /* 防止出现水平滚动条 */
+}
+
+ul, ol {
+  list-style: none; /* 去掉列表前面的小圆点 */
+}
+
+img {
+  display: block; /* 消除图片底部的微小缝隙 */
+  max-width: 100%;
+}
+
+button, input {
+  outline: none;
+  border: none;
+}
+
+/* 针对该项目的深色背景基础设置 */
+body {
+  background-color: #1a1a1a; /* 兜底背景色 */
+  color: #ffffff;
+}
