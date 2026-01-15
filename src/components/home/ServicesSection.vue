@@ -8,10 +8,8 @@
       ref="cols" 
     >
       <div class="mask"></div>
-      
       <div class="content">
-        <h3 class="en-title">{{ item.en }}</h3>
-        <p class="cn-subtitle">{{ item.cn }}</p>
+        <h3 class="en-title">{{ $t(`services.${item.key}`) }}</h3>
       </div>
     </div>
   </section>
@@ -24,17 +22,12 @@ import bgSurfaces from '@/assets/images/service-surfaces.jpg';
 
 export default {
   name: 'ServicesSection',
-  props: {
-    isActive: {
-      type: Boolean,
-      default: false
-    }
-  },
+  props: { isActive: { type: Boolean, default: false } },
   data() {
     return {
       servicesList: [
-        { en: 'Design Services', cn: '设计服务', bgImage: bgDesign },
-        { en: 'Wallcovering & Surfaces', cn: '墙面系统与表面材料', bgImage: bgSurfaces },
+        { key: 'design', bgImage: bgDesign },
+        { key: 'surfaces', bgImage: bgSurfaces },
       ],
       hasAnimated: false
     };
@@ -51,12 +44,7 @@ export default {
     playEnterAnimation() {
       const tl = gsap.timeline();
       tl.to(this.$refs.cols, {
-        y: 0,
-        opacity: 1,
-        duration: 1.2,
-        stagger: 0.2,
-        ease: 'power3.out',
-        delay: 0.2
+        y: 0, opacity: 1, duration: 1.2, stagger: 0.2, ease: 'power3.out', delay: 0.2
       });
     }
   }
@@ -68,14 +56,13 @@ export default {
 
 .services-section {
   width: 100%;
-  height: 100%; // 继承父容器高度
+  height: 100%;
   display: flex;
   overflow: hidden;
 }
 
 .service-col {
-  // --- 关键点 1: 基础 Flex 设置 ---
-  flex: 1; // 默认大家平分宽度
+  flex: 1;
   height: 100%;
   background-size: cover;
   background-position: center;
@@ -85,63 +72,48 @@ export default {
   align-items: flex-end;
   padding-bottom: 100px;
   border-right: 1px solid rgba(255, 255, 255, 0.1);
-  cursor: pointer; // 鼠标变手型，提示可交互
+  cursor: pointer;
+  transition: flex 0.6s cubic-bezier(0.25, 1, 0.5, 1); // 电脑端的宽度动画
 
-  // --- 关键点 2: 动画过渡设置 ---
-  // transition 包含 flex (宽度变化) 和 filter (可能的滤镜变化)
-  // cubic-bezier 是一种带有回弹感的曲线，比 ease 更丝滑
-  transition: flex 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s ease;
+  // &.initial-state { transform: translateY(150px); opacity: 0; }
+  &:last-child { border-right: none; }
+  
+  // 电脑端悬浮变宽
+  &:hover { flex: 2; }
 
-  // 初始入场动画状态 (保持不变)
-  &.initial-state {
-    transform: translateY(150px);
-    opacity: 0;
-  }
-
-  &:last-child {
-    border-right: none;
-  }
-
-  // --- 关键点 3: 悬浮交互 (核心) ---
-  &:hover {
-    // 当鼠标悬浮时，权重变为 2 (即宽度变为原来的约 2 倍)
-    // 其他兄弟元素保持 flex: 1，所以会被自然挤压
-    flex: 2; 
-  }
-
-  // 遮罩层 (颜色固定为 0.4，去掉 hover 变化)
   .mask {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4); 
-    // 这里移除了 transition 和 hover 效果
-    pointer-events: none; // 确保鼠标事件穿透给父容器
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.1); pointer-events: none;
   }
 
   .content {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-    color: $text-primary;
+    position: relative; z-index: 2; text-align: center; color: $text-primary;
+    min-width: 200px;
     
-    // 防止宽度压缩时文字折行太厉害，保持内容区的最小宽度
-    min-width: 200px; 
-    transition: opacity 0.3s;
-
     .en-title {
-      font-size: 24px;
-      font-weight: 400;
-      margin-bottom: 12px;
-      white-space: nowrap; // 强制不换行，保持美观
+      font-size: 24px; font-weight: 400; margin-bottom: 12px; white-space: nowrap;
     }
+  }
+}
+
+/* --- 移动端适配 --- */
+@media screen and (max-width: 768px) {
+  .services-section {
+    flex-direction: column; // 改为竖向排列
+  }
+
+  .service-col {
+    width: 100%; // 宽度占满
+    flex: 1; // 高度平分
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,0.1); // 改为底部边框
+    padding-bottom: 40px; // 减小底部留白
     
-    .cn-subtitle {
-      font-size: 14px;
-      color: $text-secondary;
-      font-weight: 300;
+    // 手机端取消悬浮变宽效果，保持平分，防止触摸乱跳
+    &:hover { flex: 1; }
+    
+    .content {
+      .en-title { font-size: 18px; } // 字体调小
     }
   }
 }
