@@ -53,7 +53,7 @@ export default {
 // 样式基本照搬，但容器类名改成了 hero-section
 .hero-section {
   width: 100%;
-  height: 100vh; // 占满一屏高度
+  height: 100%; // 从 100vh 改为 100% (继承父容器高度)
   position: relative;
   overflow: hidden;
   display: flex;
