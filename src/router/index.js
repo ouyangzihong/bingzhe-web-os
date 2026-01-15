@@ -20,7 +20,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'history', // 使用 history 模式去掉 URL 中的 # 号，更美观
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes
 })
