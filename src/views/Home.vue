@@ -64,11 +64,12 @@ export default {
     // 观察器代码保持不变，因为它逻辑是通用的，只依赖 totalSections
     initObserver() {
       Observer.create({
-        target: window,         
-        type: "wheel,touch,pointer", 
-        wheelSpeed: 1, 
-        tolerance: 10,          
-        preventDefault: true,   
+        target: window,
+        type: "wheel,touch,pointer",
+        wheelSpeed: 1,
+        tolerance: 5,         // <--- 修改点：从 10 改为 1，极其灵敏，一动就触发
+        preventDefault: true,
+        
         onUp: () => {
           if (!this.isAnimating && this.currentIndex > 0) {
             this.gotoSection(this.currentIndex - 1, -1);
@@ -85,9 +86,7 @@ export default {
     gotoSection(index, direction) {
       this.isAnimating = true;
       
-      // 5. 将 section2 加入数组
       const sections = [this.$refs.section0, this.$refs.section1, this.$refs.section2];
-      
       const fromSection = sections[this.currentIndex];
       const toSection = sections[index];
 
@@ -98,22 +97,30 @@ export default {
         }
       });
 
-      // 动画逻辑保持不变
+      // 建议时长改为 0.8 或 1.0 (原为 1.2)
+      const animDuration = 1.0; 
+
       if (direction === 1) {
         tl.fromTo(toSection, 
           { yPercent: 100 }, 
-          { yPercent: 0, duration: 1.2, ease: "power4.inOut" }
+          { yPercent: 0, duration: animDuration, ease: "power4.inOut" } // <--- 修改时长
         )
         .to(fromSection, { 
-          scale: 0.95, filter: "brightness(0.5)", duration: 1.2, ease: "power4.inOut" 
+          scale: 0.95, 
+          filter: "brightness(0.5)", 
+          duration: animDuration, // <--- 修改时长
+          ease: "power4.inOut" 
         }, "<");
+
       } else {
         tl.to(fromSection, { 
-          yPercent: 100, duration: 1.2, ease: "power4.inOut" 
+          yPercent: 100, 
+          duration: animDuration, // <--- 修改时长
+          ease: "power4.inOut" 
         })
         .fromTo(toSection, 
           { scale: 0.95, filter: "brightness(0.5)" },
-          { scale: 1, filter: "brightness(1)", duration: 1.2, ease: "power4.inOut" }, 
+          { scale: 1, filter: "brightness(1)", duration: animDuration, ease: "power4.inOut" }, // <--- 修改时长
           "<"
         );
       }
