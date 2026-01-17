@@ -35,6 +35,31 @@ export default {
       { step: 'Quality Control', sub: '' },
       { step: 'Delivery', sub: '' }
     ]
+  },
+  projects: {
+    residence: {
+      title: 'Contemporary Private Residence',
+      desc: 'A calm residential space defined by bespoke wallcovering and tailored soft furnishings.',
+      location: 'Shanghai, China',
+      type: 'Residential'
+    },
+    hotel: {
+      title: 'Luxury Hospitality Interior',
+      desc: 'A hospitality interior shaped by material-driven design and custom furnishing solutions.',
+      location: 'Dubai, UAE',
+      type: 'Hospitality'
+    },
+    showroom: {
+      title: 'Commercial Showroom',
+      desc: 'A commercial space expressing brand identity through integrated wall and furnishing systems.',
+      location: 'Guangzhou, China',
+      type: 'Commercial'
+    },
+    resort: {
+      title: 'Resort Hospitality Interior',
+      desc: 'A resort interior shaped by natural textures and bespoke furnishing solutions.',
+      location: 'Bali, Indonesia',
+      type: 'Hospitality'
+    }
   }
-  // --- 修改部分结束 ---
 }

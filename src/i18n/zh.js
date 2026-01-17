@@ -35,6 +35,31 @@ export default {
       { step: '品质管控', sub: '' },
       { step: '交付落地', sub: '' }
     ]
+  },
+  projects: {
+    residence: {
+      title: '现代私人住宅',
+      desc: '由定制墙纸和量身定制的软装定义的宁静居住空间。',
+      location: '中国 上海',
+      type: '住宅'
+    },
+    hotel: {
+      title: '豪华酒店室内设计',
+      desc: '由材料驱动设计和定制家具方案塑造的酒店室内空间。',
+      location: '阿联酋 迪拜',
+      type: '酒店'
+    },
+    showroom: {
+      title: '商业品牌展厅',
+      desc: '通过集成墙面和家具系统来表达品牌形象的商业空间。',
+      location: '中国 广州',
+      type: '商业'
+    },
+    resort: {
+      title: '度假村酒店室内设计',
+      desc: '由自然纹理和定制家具方案塑造的度假村室内空间。',
+      location: '印尼 巴厘岛',
+      type: '酒店'
+    }
   }
-  // --- 修改部分结束 ---
 }

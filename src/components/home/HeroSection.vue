@@ -66,8 +66,8 @@ export default {
   .line-mask { overflow: hidden; margin-bottom: 10px; }
   .anim-text { display: block; transform: translateY(100%); opacity: 0; }
   
-  .headline { font-size: 32px; font-weight: 300; letter-spacing: 1px; color: rgba(255,255,255,0.6); margin-bottom: 10px; }
-  .sub-headline { font-size: 40px; font-weight: 400; margin-bottom: 30px; letter-spacing: 0.5px; line-height: 1.2;}
+  .headline { font-size: 30px; font-weight: 300; letter-spacing: 1px; color: rgba(255,255,255,0.6); margin-bottom: 10px; }
+  .sub-headline { font-size: 36px; font-weight: 400; margin-bottom: 30px; letter-spacing: 0.5px; line-height: 1.2;}
   .cn-description { font-size: 20px; font-weight: 300; color: $text-secondary; letter-spacing: 2px; }
 }
 
