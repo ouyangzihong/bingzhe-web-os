@@ -115,7 +115,7 @@ export default {
 .process-section {
   width: 100%;
   height: 100%;
-  background-color: #000;
+  background-color: #3f3f3f;
   color: #fff;
   display: flex;
   align-items: center;
@@ -226,7 +226,7 @@ export default {
     // 这里为了配合 GSAP，我们保持 transform 居中，用 scale(0) 隐藏
     transform: translate(-50%, -50%) scale(0); 
 
-    box-shadow: 0 0 0 4px rgba(0,0,0,1);
+    // box-shadow: 0 0 0 4px #3f3f3f;
   }
 
   .text-group {

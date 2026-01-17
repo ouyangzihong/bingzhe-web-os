@@ -18,6 +18,9 @@
       <div class="section-panel" ref="section3">
         <ProjectsSection :is-active="currentIndex === 3" />
       </div>
+      <div class="section-panel" ref="section4">
+        <WhyChooseUsSection :is-active="currentIndex === 4" />
+      </div>
     </div>
   </div>
 </template>
@@ -32,18 +35,19 @@ import ServicesSection from '@/components/home/ServicesSection.vue';
 import ProcessSection from '@/components/home/ProcessSection.vue';
 // 2. 引入新组件
 import ProjectsSection from '@/components/home/ProjectsSection.vue';
+import WhyChooseUsSection from '@/components/home/WhyChooseUsSection.vue';
 
 gsap.registerPlugin(Observer);
 
 export default {
   name: 'HomeView',
   // 3. 注册组件
-  components: { TheNavbar, HeroSection, ServicesSection, ProcessSection, ProjectsSection },
+  components: { TheNavbar, HeroSection, ServicesSection, ProcessSection, ProjectsSection,WhyChooseUsSection},
   data() {
     return {
       currentIndex: 0,
       isAnimating: false,
-      totalSections: 4 // 4. 修改总屏数为 4
+      totalSections: 5
     };
   },
   mounted() {
@@ -56,7 +60,7 @@ export default {
   methods: {
     initLayout() {
       // 5. 将 section3 加入数组
-      const sections = [this.$refs.section0, this.$refs.section1, this.$refs.section2, this.$refs.section3];
+      const sections = [this.$refs.section0, this.$refs.section1, this.$refs.section2, this.$refs.section3,this.$refs.section4];
       
       gsap.set(sections, { 
         zIndex: (i) => i, 
@@ -92,7 +96,7 @@ export default {
       this.isAnimating = true;
       
       // 7. 更新引用数组，包含所有 4 个 section
-      const sections = [this.$refs.section0, this.$refs.section1, this.$refs.section2, this.$refs.section3];
+      const sections = [this.$refs.section0, this.$refs.section1, this.$refs.section2, this.$refs.section3, this.$refs.section4];
       const fromSection = sections[this.currentIndex];
       const toSection = sections[index];
 

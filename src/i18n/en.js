@@ -61,5 +61,27 @@ export default {
       location: 'Bali, Indonesia',
       type: 'Hospitality'
     }
+  },
+  whyChooseUs: {
+    title: "Why Choose Us",
+    subtitle: "Design-Driven. Globally Delivered",
+    items: [
+      {
+        title: "Bespoke Design",
+        desc: "Each project is tailored to its spatial conditions and functional goals. No templates. Only purpose-built solutions."
+      },
+      {
+        title: "Integrated Supply Chain",
+        desc: "Design, manufacturing, and delivery operate as one integrated system, ensuring efficiency, consistency, and quality across every stage."
+      },
+      {
+        title: "International Standard",
+        desc: "We follow international standards throughout design development, material selection, and project execution worldwide."
+      },
+      {
+        title: "One-Stop Solution",
+        desc: "From design services and FF&E to final installation, we deliver fully integrated turnkey solutions under one team."
+      }
+    ]
   }
 }
