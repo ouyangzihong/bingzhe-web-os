@@ -465,12 +465,12 @@ export default {
 .grid-col {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+//   gap: 40px;
 }
 
 .img-box {
   width: 100%;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
   img { width: 100%; height: auto; display: block; }
 }
 
