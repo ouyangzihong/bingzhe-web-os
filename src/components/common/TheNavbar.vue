@@ -147,7 +147,7 @@ export default {
 
   .logo-container {
     .logo-img { 
-      height: 40px; 
+      height: 30px; 
       width: auto; 
       transition: filter 0.4s ease; // Logo 颜色反转也要过渡
     }

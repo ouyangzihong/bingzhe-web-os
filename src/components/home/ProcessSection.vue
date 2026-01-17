@@ -26,7 +26,6 @@
           <div class="dot"></div>
           <div class="text-group">
             <div class="main-text">{{ item.step }}</div>
-            <div class="sub-text" v-if="item.sub">{{ item.sub }}</div>
           </div>
         </div>
       </div>

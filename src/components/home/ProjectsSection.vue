@@ -57,7 +57,6 @@ export default {
         this.playEnterAnimation();
         this.hasAnimated = true;
       }
-      // 删除了 else 分支
     }
   },
   methods: {
