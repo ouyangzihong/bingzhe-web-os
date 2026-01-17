@@ -41,7 +41,7 @@ export default {
 
 .hero-section {
   width: 100%;
-  height: 100%; // 继承父容器高度 (Home.vue控制)
+  height: 100vh;
   position: relative;
   overflow: hidden;
   display: flex;

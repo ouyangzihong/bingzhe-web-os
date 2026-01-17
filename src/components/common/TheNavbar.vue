@@ -1,5 +1,12 @@
 <template>
-  <nav class="navbar" ref="navbar" :class="{ 'navbar-hidden': !isVisible }">
+  <nav 
+    class="navbar" 
+    ref="navbar" 
+    :class="{ 
+      'nav-scrolled': isScrolled,
+      'navbar-hidden': !isVisible 
+    }"
+  >
     <div class="logo-container">
       <img src="@/assets/images/logo.png" alt="PINGENE Logo" class="logo-img" />
     </div>
@@ -33,10 +40,10 @@ export default {
   },
   data() {
     return {
+      isScrolled: false,
       menuKeys: [
         { key: 'home', path: '/' },
         { key: 'about', path: '/about' },
-        { key: 'services', path: '/services' },
         { key: 'products', path: '/products' },
         { key: 'projects', path: '/projects' },
         { key: 'industries', path: '/industries' },
@@ -50,12 +57,25 @@ export default {
     }
   },
   mounted() {
+    // 初始入场动画
     gsap.from(this.$refs.navbar, {
       y: -100, opacity: 0, duration: 1, ease: 'power3.out', delay: 0.5,
-      onComplete: () => { gsap.set(this.$refs.navbar, { clearProps: 'all' }); }
+      onComplete: () => { gsap.set(this.$refs.navbar, { clearProps: 'transform,opacity' }); }
     });
+
+    // 添加滚动监听
+    window.addEventListener('scroll', this.handleScroll);
+    // 初始化检查一次，防止刷新页面时在中间位置
+    this.handleScroll();
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
+    handleScroll() {
+      // 当滚动超过 50px 时切换状态
+      this.isScrolled = window.scrollY > 50;
+    },
     toggleLanguage() {
       const newLang = this.$i18n.locale === 'en' ? 'zh' : 'en';
       this.$i18n.locale = newLang;
@@ -80,65 +100,141 @@ export default {
   width: 100%;
   z-index: 100;
   box-sizing: border-box;
-  color: $text-primary;
-  transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
-  background: transparent; // 确保透明
+  
+  // --- 默认状态 (透明底，白字) ---
+  background-color: transparent; 
+  color: #ffffff; 
 
+  // --- 关键：添加过渡动画 ---
+  // all 0.4s ease 表示所有属性变化都在 0.4秒内完成平滑过渡
+  transition: background-color 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease, color 0.4s ease;
+
+  // 隐藏时的样式 (保留逻辑)
   &.navbar-hidden {
     transform: translateY(-100%);
     opacity: 0;
     pointer-events: none;
   }
 
-  .logo-img { height: 40px; width: auto; }
+  // --- 滚动后的状态 (白底，黑字) ---
+  &.nav-scrolled {
+    background-color: #ffffff; // 变白底
+    padding: 20px 60px; // 高度稍微收缩，显得更精致
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08); // 添加淡阴影
+    color: #333333; // 变黑字
+
+    // 1. 处理 Logo 颜色
+    // 如果原图是纯白色，用 invert(1) 反转成黑色
+    // 如果原图是彩色，请根据实际情况去掉 filter 或更换 img src
+    .logo-container .logo-img {
+      filter: invert(1) brightness(0.2); 
+    }
+
+    // 2. 处理菜单下划线
+    .menu-items .menu-item .underline {
+      background-color: #333333;
+    }
+
+    // 3. 处理语言切换按钮边框和背景
+    .lang-switch {
+      border-color: #999;
+      color: #333;
+      &:hover {
+        background: rgba(0,0,0,0.05);
+      }
+    }
+  }
+
+  .logo-container {
+    .logo-img { 
+      height: 40px; 
+      width: auto; 
+      transition: filter 0.4s ease; // Logo 颜色反转也要过渡
+    }
+  }
 
   .menu-items {
     display: flex;
     gap: 40px;
     
     .menu-item {
-      display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative;
-      .menu-text { font-size: 14px; font-weight: 500; margin-bottom: 4px; text-transform: uppercase; transition: color 0.3s; }
-      .underline { width: 0%; height: 1px; background-color: #fff; position: absolute; bottom: -5px; transition: width 0.3s ease; }
-      &:hover .underline { width: 100%; }
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      cursor: pointer; 
+      position: relative;
+      
+      .menu-text { 
+        font-size: 14px; 
+        font-weight: 500; 
+        margin-bottom: 4px; 
+        text-transform: uppercase; 
+        transition: color 0.4s ease; // 文字颜色过渡
+      }
+      
+      .underline { 
+        width: 0%; 
+        height: 1px; 
+        background-color: #ffffff; // 默认白色
+        position: absolute; 
+        bottom: -5px; 
+        transition: width 0.3s ease, background-color 0.4s ease; // 颜色也需要过渡
+      }
+      
+      &:hover .underline { 
+        width: 100%; 
+      }
     }
   }
 
   .lang-switch {
-    font-size: 14px; cursor: pointer; font-weight: bold; opacity: 0.8;
-    border: 1px solid rgba(255,255,255,0.3); padding: 4px 10px; border-radius: 20px;
-    &:hover { opacity: 1; background: rgba(255,255,255,0.1); }
+    font-size: 14px; 
+    cursor: pointer; 
+    font-weight: bold; 
+    opacity: 0.8;
+    border: 1px solid rgba(255,255,255,0.3); 
+    padding: 4px 10px; 
+    border-radius: 20px;
+    transition: all 0.4s ease; // 边框颜色过渡
+
+    &:hover { 
+      opacity: 1; 
+      background: rgba(255,255,255,0.1); 
+    }
   }
 
   /* --- 移动端适配 (小于768px) --- */
   @media screen and (max-width: 768px) {
-    padding: 20px; // 减小边距
-    flex-wrap: wrap; // 允许换行
+    padding: 20px;
+    
+    // 移动端滚动后的样式调整
+    &.nav-scrolled {
+      padding: 15px 20px;
+    }
 
     .logo-container {
       order: 1;
-      flex: 1; // Logo 占左边
+      flex: 1;
     }
 
     .lang-switch {
-      order: 2; // 语言切换放右边
+      order: 2;
     }
 
     .menu-items {
       order: 3;
-      width: 100%; // 菜单占满第二行
+      width: 100%;
       margin-top: 15px;
       gap: 20px;
-      overflow-x: auto; // 允许横向滚动
-      padding-bottom: 10px; // 滚动条留白
-      justify-content: flex-start; // 左对齐
-
-      // 隐藏滚动条
+      overflow-x: auto;
+      padding-bottom: 10px;
+      justify-content: flex-start;
+      
       &::-webkit-scrollbar { display: none; }
       
       .menu-item .menu-text {
-        font-size: 12px; // 字体变小
-        white-space: nowrap; // 防止文字换行
+        font-size: 12px;
+        white-space: nowrap;
       }
     }
   }
