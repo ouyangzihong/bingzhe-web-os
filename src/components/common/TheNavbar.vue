@@ -7,7 +7,7 @@
       'navbar-hidden': !isVisible 
     }"
   >
-    <div class="logo-container">
+    <div class="logo-container" @click="handleNavClick('/')" style="cursor: pointer;">
       <img src="@/assets/images/logo.png" alt="PINGENE Logo" class="logo-img" />
     </div>
 
@@ -18,6 +18,7 @@
         class="menu-item"
         @mouseenter="hoverItem()"
         @mouseleave="resetItem()"
+        @click="handleNavClick(item.path)" 
       >
         <span class="menu-text">{{ $t(`navbar.${item.key}`) }}</span>
         <div class="underline"></div>
@@ -57,15 +58,11 @@ export default {
     }
   },
   mounted() {
-    // 初始入场动画
     gsap.from(this.$refs.navbar, {
       y: -100, opacity: 0, duration: 1, ease: 'power3.out', delay: 0.5,
       onComplete: () => { gsap.set(this.$refs.navbar, { clearProps: 'transform,opacity' }); }
     });
-
-    // 添加滚动监听
     window.addEventListener('scroll', this.handleScroll);
-    // 初始化检查一次，防止刷新页面时在中间位置
     this.handleScroll();
   },
   beforeDestroy() {
@@ -73,13 +70,24 @@ export default {
   },
   methods: {
     handleScroll() {
-      // 当滚动超过 50px 时切换状态
       this.isScrolled = window.scrollY > 50;
     },
     toggleLanguage() {
       const newLang = this.$i18n.locale === 'en' ? 'zh' : 'en';
       this.$i18n.locale = newLang;
       localStorage.setItem('app-language', newLang);
+    },
+    // --- 新增：处理导航跳转 ---
+    handleNavClick(path) {
+      // 如果当前就在这个路径，就不跳转，避免报错
+      if (this.$route.path === path) return;
+      
+      this.$router.push(path).catch(err => {
+        // 捕获重复导航的错误（Vue Router 常见的小问题）
+        if (err.name !== 'NavigationDuplicated') {
+          console.error(err);
+        }
+      });
     },
     hoverItem() {},
     resetItem() {}

@@ -23,11 +23,14 @@
         <WhyChooseUsSection :is-active="currentIndex === 4" />
       </div>
     </div>
+    <!-- 先不显示页脚，后面再统一修改 -->
+    <!-- <TheFooter /> -->
   </div>
 </template>
 
 <script>
 import TheNavbar from '@/components/common/TheNavbar.vue';
+import TheFooter from '@/components/common/TheFooter.vue';
 import HeroSection from '@/components/home/HeroSection.vue';
 import ServicesSection from '@/components/home/ServicesSection.vue';
 import ProcessSection from '@/components/home/ProcessSection.vue';
@@ -38,6 +41,7 @@ export default {
   name: 'HomeView',
   components: { 
     TheNavbar, 
+    TheFooter,
     HeroSection, 
     ServicesSection, 
     ProcessSection, 

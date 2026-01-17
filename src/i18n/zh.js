@@ -37,6 +37,7 @@ export default {
     ]
   },
   projects: {
+    realScene: '项目实景图', // 新增
     residence: {
       title: '现代私人住宅',
       desc: '由定制墙纸和量身定制的软装定义的宁静居住空间。',

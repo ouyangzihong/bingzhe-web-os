@@ -37,6 +37,7 @@ export default {
     ]
   },
   projects: {
+    realScene: 'Project Real Scene Picture', // 新增
     residence: {
       title: 'Contemporary Private Residence',
       desc: 'A calm residential space defined by bespoke wallcovering and tailored soft furnishings.',
