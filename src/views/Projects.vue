@@ -5,16 +5,14 @@
     <div class="projects-container">
       <div class="grid-wrapper">
         <div 
-          v-for="(project, index) in projectList" 
-          :key="index" 
+          v-for="(project, index) in projects" 
+          :key="project.id" 
           class="project-card"
           :class="{ 'wide-card': isWide(index) }"
-          ref="projectCards"
+          @click="goToDetail(project.id)"
         >
           <div class="image-wrapper">
-            <div class="placeholder-img">
-              <span>{{ $t('projects.realScene') || 'Project Real Scene' }}</span>
-            </div>
+            <img :src="project.coverImage" class="real-img" />
             <div class="overlay"></div>
           </div>
           
@@ -39,32 +37,40 @@
 import TheNavbar from '@/components/common/TheNavbar.vue';
 import TheFooter from '@/components/common/TheFooter.vue';
 import gsap from 'gsap';
+import { projectsData } from '@/data/projects.js';
 
 export default {
   name: 'ProjectsView',
   components: { TheNavbar, TheFooter },
   computed: {
-    // 构造显示用的数据列表
-    // 这里为了演示效果，我把 i18n 里的数据拼装成了一个数组
-    // 逻辑：每 3 个项目为一组（2个小，1个大）
-    projectList() {
-      const p = this.$t('projects'); 
-      // 这里的 keys 对应你在 i18n 里的定义 (residence, hotel, etc.)
-      // 为了演示“两列+单列”的布局，我们手动构造一个数组
-      return [
-        p.residence, // index 0 (小)
-        p.hotel,     // index 1 (小)
-        p.showroom,  // index 2 (大 - 因为是第3个)
-        p.resort,    // index 3 (小)
-        p.residence, // index 4 (小 - 重复演示)
-        p.hotel      // index 5 (大 - 重复演示)
-      ];
+// 构造显示用的列表数据，根据当前语言自动切换
+    projects() {
+      const locale = this.$i18n.locale; // 获取当前语言 'zh' 或 'en'
+      
+      return projectsData.map(item => {
+        // 取出对应语言的数据包
+        const content = item[locale]; 
+        return {
+          id: item.id,
+          coverImage: item.coverImage, // 公共图片
+          ...content // 展开标题、描述等
+        };
+      });
     }
   },
+//   data() {
+//     return {
+//       // 2. 赋值给本地变量
+//       projects: projectsData
+//     };
+//   },
   methods: {
     // 判断是否是大图模式（每三个里的第三个，索引为 2, 5, 8...）
     isWide(index) {
       return (index + 1) % 3 === 0;
+    },
+    goToDetail(id) {
+        this.$router.push({ name: 'ProjectDetail', params: { id: id } });
     }
   },
   mounted() {
@@ -153,6 +159,14 @@ export default {
 
     &:hover .placeholder-img {
       transform: scale(1.05); // 悬停轻微放大
+    }
+    .real-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
+        top: 0; left: 0;
+        transition: transform 0.6s ease;
     }
   }
 
