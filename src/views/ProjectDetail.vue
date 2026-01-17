@@ -4,13 +4,10 @@
 
     <header class="hero-section">
       <div class="hero-content-wrapper">
-        
         <h1 class="hero-title">{{ currentProject.title }}</h1>
-        
         <div class="hero-intro-box">
           <p class="intro-text">{{ currentProject.intro }}</p>
         </div>
-
         <div class="hero-meta">
           <div class="meta-group">
             <span class="label">Location</span>
@@ -25,15 +22,12 @@
             <span class="value">{{ currentProject.type }}</span>
           </div>
         </div>
-
       </div>
-      
       <div class="scroll-arrow">↓</div>
     </header>
 
     <div class="content-container">
       <div class="gallery-grid">
-        
         <aside class="grid-col col-left sticky-col">
           <div class="content-wrapper">
             <div v-for="(item, i) in currentProject.leftContent" :key="i" class="left-item">
@@ -53,7 +47,7 @@
             class="img-box portrait-large"
           >
             <img :src="img.src" alt="Main View" />
-            <div class="image-label" v-if="img.label">{{ img.label }}</div>
+            <!-- <div class="image-label" v-if="img.label">{{ img.label }}</div> -->
           </div>
         </main>
 
@@ -71,11 +65,48 @@
             </div>
           </div>
         </aside>
-
       </div>
+    </div>
 
-      <div class="footer-nav">
-        <router-link to="/projects" class="back-link">Back to Projects</router-link>
+    <div class="other-projects-section">
+      <h3 class="section-title">Other Selected Projects</h3>
+      
+      <div class="carousel-container">
+        
+        <button class="nav-btn prev" @click="prevSlide" @mouseenter="pauseAutoPlay" @mouseleave="startAutoPlay">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <div 
+          class="carousel-window" 
+          @mouseenter="pauseAutoPlay" 
+          @mouseleave="startAutoPlay"
+        >
+          <div class="carousel-track" :style="trackStyle">
+            <div 
+                v-for="(p, index) in carouselList" 
+                :key="`slide-${index}`" 
+                class="project-slide-card"
+                @click="goToDetail(p.id)"
+            >
+                <div class="slide-img-wrapper">
+                <img :src="p.coverImage" />
+                <div class="hover-overlay">
+                    <span>VIEW</span>
+                </div>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="nav-btn next" @click="nextSlide" @mouseenter="pauseAutoPlay" @mouseleave="startAutoPlay">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+        
       </div>
     </div>
 
@@ -94,7 +125,12 @@ export default {
   components: { TheNavbar, TheFooter },
   data() {
     return {
-      rawProject: null
+      rawProject: null,
+      slideIndex: 0,
+      itemsPerSlide: 3,
+      autoplayTimer: null, // 新增：定时器变量
+      isResetting: false, // 【新增】用于标记是否正在进行“瞬间重置”
+      isAnimating: false  // 【新增】防止快速点击导致的动画冲突
     };
   },
   computed: {
@@ -107,19 +143,199 @@ export default {
         coverImage: this.rawProject.coverImage,
         ...content
       };
+    },
+    // 【新增】获取“其他项目”列表（过滤掉当前项目）
+    otherProjects() {
+      if (!this.rawProject) return [];
+      return projectsData.filter(p => p.id !== this.rawProject.id && p.isSelected);
+    },
+    // 【修改】动态控制过渡效果
+    trackStyle() {
+      const percent = -(100 / this.itemsPerSlide) * this.slideIndex;
+      return { 
+        transform: `translateX(${percent}%)`,
+        // 当正在重置(isResetting)时，取消过渡动画，实现瞬间跳变
+        transition: this.isResetting ? 'none' : 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)'
+      };
+    },
+    // 【核心修改】构造双向循环列表
+    carouselList() {
+      if (this.otherProjects.length === 0) return [];
+      
+      // 1. 克隆最后几张放在开头 (用于处理 "第一张 -> 上一张")
+      const clonesStart = this.otherProjects.slice(-this.itemsPerSlide);
+      
+      // 2. 克隆最前几张放在末尾 (用于处理 "最后一张 -> 下一张")
+      const clonesEnd = this.otherProjects.slice(0, this.itemsPerSlide);
+      
+      // 结构: [克隆尾巴, ...真身..., 克隆头部]
+      return [...clonesStart, ...this.otherProjects, ...clonesEnd];
+    },
+  },
+  watch: {
+    // 【新增】监听路由变化：从 项目A 跳到 项目B 时需要重新加载数据
+    '$route.params.id': {
+      immediate: true,
+      handler(newId) {
+        this.loadProject(newId);
+      }
     }
   },
-  created() {
-    const id = this.$route.params.id;
-    this.rawProject = projectsData.find(p => p.id === id);
-    if (!this.rawProject && projectsData.length > 0) {
-      this.rawProject = projectsData[0];
+  methods: {
+    loadProject(id) {
+      // 每次加载新项目，重置状态
+      this.rawProject = projectsData.find(p => p.id === id);
+      if (!this.rawProject && projectsData.length > 0) {
+        this.rawProject = projectsData[0];
+      }
+      // 【修改】重置时，也要重置到 itemsPerSlide，而不是 0
+      this.$nextTick(() => {
+         this.resetCarouselPos();
+      });
+      
+      window.scrollTo(0, 0);
+      this.$nextTick(() => {
+        gsap.from('.hero-content-wrapper', {
+          y: 50, opacity: 0, duration: 1.2, ease: 'power3.out', delay: 0.2
+        });
+      });
+    },
+    // 获取列表里的标题（根据当前语言）
+    getProjectTitle(p) {
+      const locale = this.$i18n.locale;
+      return p[locale] ? p[locale].title : '';
+    },
+    getProjectCategory(p) {
+      const locale = this.$i18n.locale;
+      return p[locale] ? p[locale].type : '';
+    },
+    // 【新增】复用重置位置逻辑
+    resetCarouselPos() {
+       this.isResetting = true; //以此禁止动画
+       this.slideIndex = this.itemsPerSlide; // 瞬间定位到“真·第一张”
+       setTimeout(() => {
+         this.isResetting = false; // 恢复动画
+       }, 50);
+    },
+    nextSlide() {
+      if (this.isAnimating) return;
+      
+      const realCount = this.otherProjects.length;
+      
+      this.slideIndex++;
+      this.isAnimating = true;
+
+      // 检查边界：到了末尾的克隆区（视觉上的第一张）
+      // 现在的结构是 [CloneEnd(3), Real(N), CloneStart(3)]
+      // RealFirst 的索引是 3 (itemsPerSlide)
+      // RealLast  的索引是 3 + N - 1
+      // CloneStart 的第一张索引是 3 + N
+      if (this.slideIndex === this.itemsPerSlide + realCount) {
+        setTimeout(() => {
+          this.isResetting = true;
+          // 瞬间跳回“真·第一张”
+          this.slideIndex = this.itemsPerSlide;
+          setTimeout(() => {
+            this.isResetting = false;
+            this.isAnimating = false;
+          }, 50);
+        }, 600);
+      } else {
+        setTimeout(() => {
+          this.isAnimating = false;
+        }, 600);
+      }
+    },
+
+    // 【核心修改】上一张逻辑
+    prevSlide() {
+      if (this.isAnimating) return;
+      
+      const realCount = this.otherProjects.length;
+      
+      this.slideIndex--;
+      this.isAnimating = true;
+
+      // 检查边界：到了开头的克隆区（视觉上的最后一张）
+      // 索引 0 是 CloneEnd 的第一张，视觉上它等于 RealLast
+      if (this.slideIndex === 0) {
+        setTimeout(() => {
+          this.isResetting = true;
+          // 瞬间跳回“真·最后一张”
+          // 索引 = itemsPerSlide + realCount - itemsPerSlide (抵消了) = realCount ? 
+          // 不对，RealLast 的索引是 itemsPerSlide + realCount - 1
+          // 让我们算一下：
+          // 0 位置的内容 = RealLast 的内容。
+          // RealLast 的位置 = itemsPerSlide + realCount - 1? 
+          // 比如: [C, A, B, C, A]. items=1, count=3. 
+          // Real: A(1), B(2), C(3). 
+          // Prev -> 0 (C). Jump to 3 (C). Correct.
+          
+          this.slideIndex = realCount; 
+          
+          setTimeout(() => {
+            this.isResetting = false;
+            this.isAnimating = false;
+          }, 50);
+        }, 600);
+      } else {
+        setTimeout(() => {
+          this.isAnimating = false;
+        }, 600);
+      }
+    },
+
+    // 新增：开始自动播放
+    startAutoPlay() {
+      // 防止重复开启
+      if (this.autoplayTimer) clearInterval(this.autoplayTimer);
+      // 每 3 秒切换一次
+      this.autoplayTimer = setInterval(() => {
+        this.nextSlide();
+      }, 3000);
+    },
+
+    // 新增：暂停自动播放
+    pauseAutoPlay() {
+      if (this.autoplayTimer) {
+        clearInterval(this.autoplayTimer);
+        this.autoplayTimer = null;
+      }
+    },
+    goToDetail(id) {
+      this.$router.push({ name: 'ProjectDetail', params: { id: id } });
+    },
+    // 【修改】响应式检查
+    checkResponsive() {
+      // 记录之前的 itemsPerSlide 以便判断是否变化
+      const oldItems = this.itemsPerSlide;
+      
+      if (window.innerWidth < 768) {
+        this.itemsPerSlide = 1;
+      } else {
+        this.itemsPerSlide = 3;
+      }
+      
+      // 如果屏幕变化，重置位置
+      if (oldItems !== this.itemsPerSlide) {
+        this.resetCarouselPos();
+      }
     }
   },
   mounted() {
-    gsap.from('.hero-content-wrapper', {
-      y: 50, opacity: 0, duration: 1.2, ease: 'power3.out', delay: 0.2
-    });
+    // 监听窗口大小以调整轮播显示数量
+    this.checkResponsive();
+    window.addEventListener('resize', this.checkResponsive);
+
+    // 启动自动播放
+    this.startAutoPlay();
+    // 确保初始位置正确
+    this.resetCarouselPos();
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.checkResponsive);
+    // 销毁组件时清除定时器，防止内存泄漏
+    this.pauseAutoPlay();
   }
 };
 </script>
@@ -228,7 +444,8 @@ export default {
 .content-container {
   max-width: 1600px;
   margin: 0 auto;
-  padding: 0 60px 150px;
+  padding: 0 60px 60px;
+  margin-top: 50px;
 }
 
 .gallery-grid {
@@ -253,6 +470,7 @@ export default {
 
 .img-box {
   width: 100%;
+  margin-bottom: 50px;
   img { width: 100%; height: auto; display: block; }
 }
 
@@ -261,7 +479,6 @@ export default {
   line-height: 1.8;
   color: #333; // 正文还是深色，因为背景是白色
   margin-bottom: 10px;
-  text-align: justify;
 }
 
 .detail-card .detail-info {
@@ -285,7 +502,114 @@ export default {
     &:hover { opacity: 0.6; }
   }
 }
+// 底部轮播图样式
+.other-projects-section {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 100px 60px 150px;
+  border-top: 1px solid #f0f0f0;
 
+  // 1. 标题居中
+  .section-title {
+    font-size: 24px;
+    font-weight: 300;
+    letter-spacing: -0.5px;
+    color: #000;
+    text-align: center; // 居中
+    margin-bottom: 60px;
+  }
+
+  // 3. 左右按钮在两侧的容器布局
+  .carousel-container {
+    display: flex;
+    align-items: center; // 垂直居中
+    gap: 30px; // 按钮和图片之间的间距
+    position: relative;
+  }
+
+  // 按钮样式
+  .nav-btn {
+    width: 50px; height: 50px;
+    border: 1px solid #eee;
+    background: #fff;
+    border-radius: 50%; // 圆形
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    color: #333;
+    flex-shrink: 0; // 防止按钮被压缩
+    z-index: 2;
+
+    &:hover {
+      border-color: #000;
+      background: #000;
+      color: #fff;
+    }
+    
+    svg { display: block; }
+  }
+
+  // 视窗样式
+  .carousel-window {
+    width: 100%;
+    overflow: hidden;
+    // 增加 padding 防止 hover 时阴影被切掉（可选）
+    padding: 10px 0; 
+  }
+
+  .carousel-track {
+    display: flex;
+    width: 100%;
+  }
+
+  .project-slide-card {
+    flex: 0 0 33.33%; // 电脑端显示3个
+    padding: 0 15px; // 图片之间的间距 (左右各15=30px gap)
+    box-sizing: border-box;
+    cursor: pointer;
+
+    .slide-img-wrapper {
+      width: 100%;
+      height: 400px; // 稍微调高一点，因为没有文字了
+      background-color: #f5f5f5;
+      overflow: hidden;
+      position: relative;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+      }
+
+      .hover-overlay {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s;
+        
+        span {
+          color: #fff;
+          font-size: 12px;
+          letter-spacing: 2px;
+          border: 1px solid #fff;
+          padding: 10px 25px;
+        }
+      }
+    }
+
+    &:hover {
+      .slide-img-wrapper img { transform: scale(1.05); }
+      .hover-overlay { opacity: 1; }
+    }
+  }
+}
 @keyframes bounce {
   0%, 100% { transform: translate(-50%, 0); }
   50% { transform: translate(-50%, 10px); }
@@ -307,7 +631,7 @@ export default {
   .hero-content-wrapper { max-width: 100%; }
   .hero-title { font-size: 36px; }
   
-  .content-container { padding: 0 20px 80px; }
+  .content-container { padding: 0 20px 80px;margin-top: 30px; }
   
   .gallery-grid {
     display: flex;
@@ -319,5 +643,28 @@ export default {
   .col-left { order: 1; }
   .col-center { order: 2; }
   .col-right { order: 3; display: flex; }
+.other-projects-section {
+    padding: 60px 20px 100px;
+    
+    .carousel-container {
+      gap: 10px; // 手机上间距小一点
+    }
+
+    .nav-btn {
+      width: 36px; height: 36px; // 手机上按钮小一点
+      padding: 0;
+      
+      svg { width: 18px; height: 18px; }
+    }
+
+    .project-slide-card {
+      flex: 0 0 100%; // 手机端显示1个
+      padding: 0;
+      
+      .slide-img-wrapper {
+        height: 250px; // 手机上高度减小
+      }
+    }
+  }
 }
 </style>
