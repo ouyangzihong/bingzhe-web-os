@@ -84,5 +84,24 @@ export default {
         desc: "From design services and FF&E to final installation, we deliver fully integrated turnkey solutions under one team."
       }
     ]
+  },
+  contact: {
+    subTitle: 'Common questions',
+    title: 'Have questions?\nGet in touch!',
+    description: 'We are here to assist you with any questions or concerns you may have. Feel free to reach out to us anytime.',
+    location: 'China—',
+    email: 'XXXXXX@XXX.com',
+    phone: '+86 000 0000 0000',
+    form: {
+      name: 'Name',
+      email: 'Email',
+      subject: 'Subject',
+      message: 'Message',
+      privacy: 'I agree that my submitted data is being collected and stored.',
+      submit: 'Send Message',
+      submitting: 'Sending...',
+      success: 'Message sent successfully!',
+      error: 'Failed to send message. Please try again.'
+    }
   }
 }

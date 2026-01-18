@@ -84,5 +84,24 @@ export default {
         desc: "从设计服务、软装配饰到最终安装，我们由同一团队提供完全集成的一站式交钥匙服务。"
       }
     ]
+  },
+  contact: {
+    subTitle: '常见问题',
+    title: '有疑问？\n请随时联系！',
+    description: '我们要随时为您提供帮助，解答您的任何疑问或顾虑。请随时与我们联系。',
+    location: '中国 —',
+    email: 'XXXXXX@XXX.com',
+    phone: '+86 000 0000 0000',
+    form: {
+      name: '姓名',
+      email: '邮箱',
+      subject: '主题',
+      message: '留言内容',
+      privacy: '我同意收集并存储我提交的数据。',
+      submit: '发送留言',
+      submitting: '发送中...',
+      success: '留言发送成功！',
+      error: '发送失败，请重试。'
+    }
   }
 }

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue' // 引入我们在 views 里写的 Home 组件
 import Projects from '../views/Projects.vue'
 import ProjectDetail from '../views/ProjectDetail.vue'
+import Contact from '../views/Contact.vue' // 引入组件
 
 // 1. 显式安装路由插件 (这一步就是为了解决 Unknown custom element 报错)
 Vue.use(VueRouter)
@@ -22,7 +23,12 @@ const routes = [
     path: '/project/:id',
     name: 'ProjectDetail',
     component: ProjectDetail
-  }
+  },
+  {
+    path: '/contact',
+    name: 'Contact',
+    component: Contact
+  },
 ]
 
 const router = new VueRouter({
