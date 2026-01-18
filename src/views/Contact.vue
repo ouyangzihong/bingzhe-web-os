@@ -37,6 +37,7 @@
                 @input="errors.name = false"
               >
             </div>
+            
             <div class="form-group">
               <input 
                 v-model="form.email" 
@@ -46,7 +47,13 @@
                 :class="{ 'input-error': errors.email }"
                 @input="errors.email = false"
               >
+              <transition name="fade">
+                <span v-if="errors.email" class="error-tip">
+                  {{ $t('contact.form.emailError') }}
+                </span>
+              </transition>
             </div>
+
             <div class="form-group">
               <input 
                 v-model="form.subject" 
@@ -54,6 +61,7 @@
                 :placeholder="$t('contact.form.subject')" 
               >
             </div>
+            
             <div class="form-group">
               <textarea 
                 v-model="form.message" 
@@ -122,15 +130,21 @@ export default {
     validateForm() {
       let isValid = true;
       
+      // 1. 验证姓名
       if (!this.form.name.trim()) {
         this.errors.name = true;
         isValid = false;
       }
-      if (!this.form.email.trim()) {
+
+      // 2. 验证邮箱 (正则校验)
+      // 规则：非空，且必须包含 @ 和域名后缀
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!this.form.email.trim() || !emailRegex.test(this.form.email)) {
         this.errors.email = true;
         isValid = false;
       }
 
+      // 3. 验证隐私协议
       if (!this.form.privacyAgreed) {
         this.privacyError = true;
         this.triggerShake();
@@ -198,7 +212,6 @@ export default {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  // 去掉了 overflow: hidden，允许页面滚动
 }
 
 ::v-deep .force-light-nav {
@@ -213,20 +226,16 @@ export default {
 }
 
 .contact-container {
-  // --- 关键布局修改 ---
-  min-height: 100vh; // 1. 至少占满一屏
+  min-height: 100vh; 
   display: flex;
   flex-direction: column;
-  justify-content: center; // 2. 内容垂直居中
-  // 注意：这里去掉了 align-items: center，不再强制水平居中，让 max-width 自然居中
+  justify-content: center; 
   
   width: 100%;
   max-width: 1400px;
-  margin: 0 auto; // 标准的水平居中方式
-  padding: 0 180px;
+  margin: 0 auto; 
+  padding: 0 60px;
   box-sizing: border-box;
-  
-  // 稍微抵消一下 Navbar 的高度视觉影响，让内容视觉上更居中
   padding-top: 60px; 
 }
 
@@ -234,7 +243,6 @@ export default {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  // 让左右两侧在垂直方向上对齐（例如左侧文字少，右侧表单长时，保持垂直居中对齐）
   align-items: center; 
   gap: 80px;
 }
@@ -252,7 +260,7 @@ export default {
   }
 
   .main-title {
-    font-size: 43px; // 字体保持 43px
+    font-size: 43px; 
     line-height: 1.2;
     margin-bottom: 40px;
     white-space: pre-wrap;
@@ -287,14 +295,15 @@ export default {
 
 .form-section {
   flex: 1;
-  max-width: 400px; // 保持精致的宽度
+  max-width: 400px; 
   
   .form-group {
     margin-bottom: 20px; 
+    position: relative; // 确保错误提示定位基准正确
     
     input, textarea {
       width: 100%;
-      padding: 12px 16px; // 保持较小的高度
+      padding: 12px 16px; 
       background-color: #f9f9f9;
       border: 1px solid #e5e5e5;
       border-radius: 12px;
@@ -319,12 +328,24 @@ export default {
         border-color: #ff4d4f;
         background-color: #fff1f0;
         &::placeholder { color: #ff7875; }
+        
+        // 当发生错误时，稍微增加底部间距给提示文字留空间
+        margin-bottom: 5px; 
       }
     }
     
     textarea {
       resize: vertical;
       min-height: 100px; 
+    }
+
+    // --- 新增：错误提示文字样式 ---
+    .error-tip {
+      color: #ff4d4f;
+      font-size: 12px;
+      margin-top: 4px;
+      display: block;
+      padding-left: 4px;
     }
   }
 
@@ -355,7 +376,7 @@ export default {
 
   .submit-btn {
     width: 100%;
-    padding: 12px; // 保持较小高度
+    padding: 12px; 
     background-color: #222;
     color: #fff;
     border: none;
@@ -392,6 +413,14 @@ export default {
   }
 }
 
+// 简单的淡入淡出动画
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
 @keyframes shake {
   0% { transform: translateX(0); }
   25% { transform: translateX(-5px); }
@@ -412,7 +441,7 @@ export default {
   
   .contact-container { 
     padding: 40px 20px; 
-    min-height: auto; // 移动端取消强行全屏，避免高度不够
+    min-height: auto; 
   }
   
   .contact-content { 

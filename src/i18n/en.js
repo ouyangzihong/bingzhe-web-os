@@ -98,6 +98,7 @@ export default {
       subject: 'Subject',
       message: 'Message',
       privacy: 'I agree that my submitted data is being collected and stored.',
+      emailError: 'Please enter a valid email address',
       submit: 'Send Message',
       submitting: 'Sending...',
       success: 'Message sent successfully!',

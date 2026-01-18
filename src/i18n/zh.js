@@ -98,6 +98,7 @@ export default {
       subject: '主题',
       message: '留言内容',
       privacy: '我同意收集并存储我提交的数据。',
+      emailError: '请输入正确的邮箱格式',
       submit: '发送留言',
       submitting: '发送中...',
       success: '留言发送成功！',
