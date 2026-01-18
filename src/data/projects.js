@@ -27,12 +27,20 @@ export const projectsData = [
       // 详情页 - 核心画廊 (左侧：文案+氛围图)
       leftContent: [
         { type: 'text', content: '空间的设计逻辑始于对光线的捕捉。我们拆除了原本封闭的隔墙，让自然光能够深入室内的每一个角落。' },
-        { type: 'image', src: require('@/assets/images/service-design.jpg'), caption: '材质灵感板' }
+        { src: require('@/assets/images/service-surfaces.jpg'), name: '定制沙发', meta: '面料: Kvadrat' },
+        { src: require('@/assets/images/service-design.jpg'), name: '吊灯', meta: '品牌: Flos' },
+        { src: require('@/assets/images/service-surfaces.jpg'), name: '定制沙发', meta: '面料: Kvadrat' },
+        { src: require('@/assets/images/service-design.jpg'), name: '吊灯', meta: '品牌: Flos' },
+
       ],
 
       // 详情页 - 核心画廊 (中间：主要大图)
       mainImages: [
         { src: require('@/assets/images/home-bg.jpg'), label: '客厅全景' },
+        { src: require('@/assets/images/home-bg.jpg'), label: '主卧视角' },
+        { src: require('@/assets/images/home-bg.jpg'), label: '走廊细节' },
+        { src: require('@/assets/images/home-bg.jpg'), label: '主卧视角' },
+        { src: require('@/assets/images/home-bg.jpg'), label: '走廊细节' },
         { src: require('@/assets/images/home-bg.jpg'), label: '主卧视角' },
         { src: require('@/assets/images/home-bg.jpg'), label: '走廊细节' }
       ],
@@ -41,7 +49,9 @@ export const projectsData = [
       rightImages: [
         { spacer: true, height: '0px' }, // 错位占位符
         { src: require('@/assets/images/service-surfaces.jpg'), name: '定制沙发', meta: '面料: Kvadrat' },
-        { src: require('@/assets/images/service-design.jpg'), name: '吊灯', meta: '品牌: Flos' }
+        { src: require('@/assets/images/service-design.jpg'), name: '吊灯', meta: '品牌: Flos' },
+        { src: require('@/assets/images/service-surfaces.jpg'), name: '定制沙发', meta: '面料: Kvadrat' },
+        { src: require('@/assets/images/service-design.jpg'), name: '吊灯', meta: '品牌: Flos' },
       ]
     },
 
@@ -59,7 +69,8 @@ export const projectsData = [
 
       leftContent: [
         { type: 'text', content: 'The design logic begins with the capture of light. We demolished the original enclosed partitions to allow natural light to penetrate deep into every corner.' },
-        { type: 'image', src: require('@/assets/images/service-design.jpg'), caption: 'Material Palette' }
+        { src: require('@/assets/images/service-surfaces.jpg'), name: 'Custom Sofa', meta: 'Fabric by Kvadrat' },
+        { src: require('@/assets/images/service-design.jpg'), name: 'Pendant Light', meta: 'Brand: Flos' }
       ],
 
       mainImages: [
@@ -98,7 +109,8 @@ export const projectsData = [
       // 详情页 - 核心画廊 (左侧：文案+氛围图)
       leftContent: [
         { type: 'text', content: '空间的设计逻辑始于对光线的捕捉。我们拆除了原本封闭的隔墙，让自然光能够深入室内的每一个角落。' },
-        { type: 'image', src: require('@/assets/images/service-design.jpg'), caption: '材质灵感板' }
+        { src: require('@/assets/images/service-surfaces.jpg'), name: '定制沙发', meta: '面料: Kvadrat' },
+        { src: require('@/assets/images/service-design.jpg'), name: '吊灯', meta: '品牌: Flos' }
       ],
 
       // 详情页 - 核心画廊 (中间：主要大图)
@@ -130,7 +142,8 @@ export const projectsData = [
 
       leftContent: [
         { type: 'text', content: 'The design logic begins with the capture of light. We demolished the original enclosed partitions to allow natural light to penetrate deep into every corner.' },
-        { type: 'image', src: require('@/assets/images/service-design.jpg'), caption: 'Material Palette' }
+        { src: require('@/assets/images/service-surfaces.jpg'), name: 'Custom Sofa', meta: 'Fabric by Kvadrat' },
+        { src: require('@/assets/images/service-design.jpg'), name: 'Pendant Light', meta: 'Brand: Flos' }
       ],
 
       mainImages: [
@@ -169,7 +182,8 @@ export const projectsData = [
       // 详情页 - 核心画廊 (左侧：文案+氛围图)
       leftContent: [
         { type: 'text', content: '空间的设计逻辑始于对光线的捕捉。我们拆除了原本封闭的隔墙，让自然光能够深入室内的每一个角落。' },
-        { type: 'image', src: require('@/assets/images/service-design.jpg'), caption: '材质灵感板' }
+        { src: require('@/assets/images/service-surfaces.jpg'), name: '定制沙发', meta: '面料: Kvadrat' },
+        { src: require('@/assets/images/service-design.jpg'), name: '吊灯', meta: '品牌: Flos' }
       ],
 
       // 详情页 - 核心画廊 (中间：主要大图)
@@ -201,7 +215,8 @@ export const projectsData = [
 
       leftContent: [
         { type: 'text', content: 'The design logic begins with the capture of light. We demolished the original enclosed partitions to allow natural light to penetrate deep into every corner.' },
-        { type: 'image', src: require('@/assets/images/service-design.jpg'), caption: 'Material Palette' }
+        { src: require('@/assets/images/service-surfaces.jpg'), name: 'Custom Sofa', meta: 'Fabric by Kvadrat' },
+        { src: require('@/assets/images/service-design.jpg'), name: 'Pendant Light', meta: 'Brand: Flos' }
       ],
 
       mainImages: [
@@ -240,7 +255,8 @@ export const projectsData = [
       // 详情页 - 核心画廊 (左侧：文案+氛围图)
       leftContent: [
         { type: 'text', content: '空间的设计逻辑始于对光线的捕捉。我们拆除了原本封闭的隔墙，让自然光能够深入室内的每一个角落。' },
-        { type: 'image', src: require('@/assets/images/service-design.jpg'), caption: '材质灵感板' }
+        { src: require('@/assets/images/service-surfaces.jpg'), name: '定制沙发', meta: '面料: Kvadrat' },
+        { src: require('@/assets/images/service-design.jpg'), name: '吊灯', meta: '品牌: Flos' }
       ],
 
       // 详情页 - 核心画廊 (中间：主要大图)
@@ -272,7 +288,8 @@ export const projectsData = [
 
       leftContent: [
         { type: 'text', content: 'The design logic begins with the capture of light. We demolished the original enclosed partitions to allow natural light to penetrate deep into every corner.' },
-        { type: 'image', src: require('@/assets/images/service-design.jpg'), caption: 'Material Palette' }
+        { src: require('@/assets/images/service-surfaces.jpg'), name: 'Custom Sofa', meta: 'Fabric by Kvadrat' },
+        { src: require('@/assets/images/service-design.jpg'), name: 'Pendant Light', meta: 'Brand: Flos' }
       ],
 
       mainImages: [
@@ -311,7 +328,8 @@ export const projectsData = [
       // 详情页 - 核心画廊 (左侧：文案+氛围图)
       leftContent: [
         { type: 'text', content: '空间的设计逻辑始于对光线的捕捉。我们拆除了原本封闭的隔墙，让自然光能够深入室内的每一个角落。' },
-        { type: 'image', src: require('@/assets/images/service-design.jpg'), caption: '材质灵感板' }
+        { src: require('@/assets/images/service-surfaces.jpg'), name: '定制沙发', meta: '面料: Kvadrat' },
+        { src: require('@/assets/images/service-design.jpg'), name: '吊灯', meta: '品牌: Flos' }
       ],
 
       // 详情页 - 核心画廊 (中间：主要大图)
@@ -343,7 +361,8 @@ export const projectsData = [
 
       leftContent: [
         { type: 'text', content: 'The design logic begins with the capture of light. We demolished the original enclosed partitions to allow natural light to penetrate deep into every corner.' },
-        { type: 'image', src: require('@/assets/images/service-design.jpg'), caption: 'Material Palette' }
+        { src: require('@/assets/images/service-surfaces.jpg'), name: 'Custom Sofa', meta: 'Fabric by Kvadrat' },
+        { src: require('@/assets/images/service-design.jpg'), name: 'Pendant Light', meta: 'Brand: Flos' }
       ],
 
       mainImages: [
@@ -382,7 +401,8 @@ export const projectsData = [
       // 详情页 - 核心画廊 (左侧：文案+氛围图)
       leftContent: [
         { type: 'text', content: '空间的设计逻辑始于对光线的捕捉。我们拆除了原本封闭的隔墙，让自然光能够深入室内的每一个角落。' },
-        { type: 'image', src: require('@/assets/images/service-design.jpg'), caption: '材质灵感板' }
+        { src: require('@/assets/images/service-surfaces.jpg'), name: '定制沙发', meta: '面料: Kvadrat' },
+        { src: require('@/assets/images/service-design.jpg'), name: '吊灯', meta: '品牌: Flos' }
       ],
 
       // 详情页 - 核心画廊 (中间：主要大图)
@@ -414,7 +434,8 @@ export const projectsData = [
 
       leftContent: [
         { type: 'text', content: 'The design logic begins with the capture of light. We demolished the original enclosed partitions to allow natural light to penetrate deep into every corner.' },
-        { type: 'image', src: require('@/assets/images/service-design.jpg'), caption: 'Material Palette' }
+        { src: require('@/assets/images/service-surfaces.jpg'), name: 'Custom Sofa', meta: 'Fabric by Kvadrat' },
+        { src: require('@/assets/images/service-design.jpg'), name: 'Pendant Light', meta: 'Brand: Flos' }
       ],
 
       mainImages: [
@@ -429,6 +450,6 @@ export const projectsData = [
         { src: require('@/assets/images/service-design.jpg'), name: 'Pendant Light', meta: 'Brand: Flos' }
       ]
     }
-  }
+  },
   // 可以在这里复制添加更多项目...
 ];
