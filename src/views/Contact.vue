@@ -234,7 +234,7 @@ export default {
   width: 100%;
   max-width: 1400px;
   margin: 0 auto; 
-  padding: 0 60px;
+  padding: 0 180px;
   box-sizing: border-box;
   padding-top: 60px; 
 }
