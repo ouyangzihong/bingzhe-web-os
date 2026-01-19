@@ -22,9 +22,13 @@
       <div class="section-panel" ref="section4">
         <WhyChooseUsSection :is-active="currentIndex === 4" />
       </div>
+
+      <div class="section-panel" ref="section5">
+        <ContactSection :is-active="currentIndex === 5" />
+      </div>
     </div>
-    <!-- 先不显示页脚，后面再统一修改 -->
-    <!-- <TheFooter /> -->
+    
+    <TheFooter />
   </div>
 </template>
 
@@ -36,6 +40,8 @@ import ServicesSection from '@/components/home/ServicesSection.vue';
 import ProcessSection from '@/components/home/ProcessSection.vue';
 import ProjectsSection from '@/components/home/ProjectsSection.vue';
 import WhyChooseUsSection from '@/components/home/WhyChooseUsSection.vue';
+// 引入新组件
+import ContactSection from '@/components/home/ContactSection.vue';
 
 export default {
   name: 'HomeView',
@@ -46,7 +52,8 @@ export default {
     ServicesSection, 
     ProcessSection, 
     ProjectsSection, 
-    WhyChooseUsSection 
+    WhyChooseUsSection,
+    ContactSection
   },
   data() {
     return {
@@ -78,6 +85,7 @@ export default {
             else if (entry.target === this.$refs.section2) this.currentIndex = 2;
             else if (entry.target === this.$refs.section3) this.currentIndex = 3;
             else if (entry.target === this.$refs.section4) this.currentIndex = 4;
+            else if (entry.target === this.$refs.section5) this.currentIndex = 5; // 新增监听
           }
         });
       }, options);
@@ -87,7 +95,8 @@ export default {
         this.$refs.section1, 
         this.$refs.section2, 
         this.$refs.section3, 
-        this.$refs.section4
+        this.$refs.section4,
+        this.$refs.section5 // 新增观察对象
       ];
       
       sections.forEach(section => {
@@ -117,5 +126,8 @@ export default {
   position: relative;
   width: 100%;
   min-height: 100vh; 
+  /* 确保每个 section 都是块级上下文，避免外边距重叠问题 */
+  display: flex;
+  flex-direction: column;
 }
 </style>

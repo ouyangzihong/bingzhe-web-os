@@ -28,8 +28,7 @@
         </div>
       </div>
     </div>
-    <!-- 先不显示页脚，后面再统一修改 -->
-    <!-- <TheFooter /> -->
+    <TheFooter />
   </div>
 </template>
 

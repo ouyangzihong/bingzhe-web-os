@@ -104,5 +104,15 @@ export default {
       success: 'Message sent successfully!',
       error: 'Failed to send message. Please try again.'
     }
+  },
+  footer: {
+    slogan: 'Turn your home into something beautiful',
+    desc: 'LA (Ligne Atelier) is a design-led interior brand specializing in wall surfaces, soft furnishings, and bespoke furniture, delivering integrated solutions for residential, hospitality, and commercial projects worldwide.',
+    office: 'Office',
+    location: 'China—',
+    links: 'Links',
+    getInTouch: 'Get in Touch',   // 按钮文字
+    socialTitle: 'Get in Touch',  // 社交媒体栏标题
+    rights: 'All Rights Reserved.'
   }
 }

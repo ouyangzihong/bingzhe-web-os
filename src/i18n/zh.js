@@ -104,5 +104,15 @@ export default {
       success: '留言发送成功！',
       error: '发送失败，请重试。'
     }
+  },
+  footer: {
+    slogan: '将您的家变成美好的所在',
+    desc: 'LA (Ligne Atelier) 是一个以设计为主导的室内品牌，专注于墙面材料、软装陈设和定制家具，为全球住宅、酒店和商业项目提供一体化解决方案。',
+    office: '办公地点',
+    location: '中国—',
+    links: '快速链接',
+    getInTouch: '联系我们',     // 按钮文字
+    socialTitle: '关注我们',    // 社交媒体栏标题（用“关注我们”区别于按钮更自然）
+    rights: '版权所有。'
   }
 }
