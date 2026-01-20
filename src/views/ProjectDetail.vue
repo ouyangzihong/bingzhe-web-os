@@ -2,7 +2,7 @@
   <div class="project-detail-page" v-if="currentProject">
     <TheNavbar :is-visible="true" class="fixed-top-nav" />
 
-    <header class="hero-section">
+    <header class="hero-section" :style="heroStyle">
       <div class="hero-content-wrapper">
         <h1 class="hero-title">{{ currentProject.title }}</h1>
         <div class="hero-intro-box">
@@ -28,7 +28,10 @@
 
     <div class="content-container">
       <div class="gallery-grid">
-        <aside class="grid-col col-left sticky-col">
+        <aside class="grid-col col-left sticky-col"
+        ref="leftCol" 
+        :style="{ top: leftStickyTop }"
+        >
           <div class="content-wrapper">
             <div v-for="(item, i) in currentProject.leftContent" :key="i" class="left-item">
               <p v-if="item.type === 'text'" class="text-para">{{ item.content }}</p>
@@ -57,7 +60,10 @@
           </div>
         </main>
 
-        <aside class="grid-col col-right sticky-col">
+        <aside class="grid-col col-right sticky-col"
+        ref="rightCol" 
+        :style="{ top: rightStickyTop }"
+        >
           <div class="content-wrapper">
             <div v-for="(img, idx) in currentProject.rightImages" :key="`r-${idx}`">
               <div v-if="img.spacer" :style="{ height: img.height }"></div>
@@ -136,7 +142,10 @@ export default {
       itemsPerSlide: 3,
       autoplayTimer: null, // 新增：定时器变量
       isResetting: false, // 【新增】用于标记是否正在进行“瞬间重置”
-      isAnimating: false  // 【新增】防止快速点击导致的动画冲突
+      isAnimating: false,  // 【新增】防止快速点击导致的动画冲突
+      leftStickyTop: '0px',
+      rightStickyTop: '0px',
+      resizeObserver: null // 保存观察者实例
     };
   },
   computed: {
@@ -148,6 +157,17 @@ export default {
         id: this.rawProject.id,
         coverImage: this.rawProject.coverImage,
         ...content
+      };
+    },
+    heroStyle() {
+      if (!this.currentProject || !this.currentProject.coverImage) return {};
+      
+      const imgUrl = this.currentProject.coverImage;
+      
+      return {
+        // 使用 linear-gradient 添加 50% 透明度的黑色遮罩，防止背景太亮导致文字看不清
+        // backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${imgUrl})`
+        backgroundImage: `url(${imgUrl})`
       };
     },
     // 【新增】获取“其他项目”列表（过滤掉当前项目）
@@ -326,7 +346,49 @@ export default {
       if (oldItems !== this.itemsPerSlide) {
         this.resetCarouselPos();
       }
-    }
+    },
+// 【新增】初始化尺寸监听
+    initStickyObserver() {
+      // 创建一个观察者，当元素高度变化时（比如图片加载完成），重新计算 top
+      this.resizeObserver = new ResizeObserver(() => {
+        this.calculateStickyPos();
+      });
+
+      // 开始观察左右侧边栏
+      if (this.$refs.leftCol) this.resizeObserver.observe(this.$refs.leftCol);
+      if (this.$refs.rightCol) this.resizeObserver.observe(this.$refs.rightCol);
+      
+      // 立即计算一次
+      this.calculateStickyPos();
+    },
+
+    // 【新增】核心计算逻辑
+    calculateStickyPos() {
+      const windowHeight = window.innerHeight;
+      const bottomMargin = 50; // 你希望侧边栏距离底部的留白
+      const navHeight = 80;    // 顶部导航栏的大致高度（防止太高遮挡）
+
+      // --- 计算左侧 ---
+      if (this.$refs.leftCol) {
+        const height = this.$refs.leftCol.offsetHeight;
+        // 核心公式：top = 屏幕高度 - 元素高度 - 底部留白
+        let top = windowHeight - height - bottomMargin;
+        
+        // 边界检查：如果侧边栏非常高（超过屏幕），则让它吸顶（或者你也可以让它吸底，看需求）
+        // 这里为了保证“底部固定”的体验，允许 top 为负数（这样就可以滚动到底部看全内容）
+        // 但不能让 top 太大导致它飞出屏幕下方，虽然逻辑上不太可能。
+        
+        // 只有当元素比屏幕矮时，这个公式才会产生较大的正数 top，从而实现“沉在底部”的效果。
+        this.leftStickyTop = `${top}px`;
+      }
+
+      // --- 计算右侧 ---
+      if (this.$refs.rightCol) {
+        const height = this.$refs.rightCol.offsetHeight;
+        let top = windowHeight - height - bottomMargin;
+        this.rightStickyTop = `${top}px`;
+      }
+    },
   },
   mounted() {
     // 监听窗口大小以调整轮播显示数量
@@ -337,11 +399,22 @@ export default {
     this.startAutoPlay();
     // 确保初始位置正确
     this.resetCarouselPos();
+// 【新增】启动侧边栏高度监听
+    this.initStickyObserver();
+    
+    // 额外监听窗口大小改变，重新计算
+    window.addEventListener('resize', this.calculateStickyPos);
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.checkResponsive);
     // 销毁组件时清除定时器，防止内存泄漏
     this.pauseAutoPlay();
+    window.removeEventListener('resize', this.calculateStickyPos);
+    
+    // 【新增】销毁观察者
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
   }
 };
 </script>
@@ -382,6 +455,9 @@ export default {
   align-items: flex-start;   // 水平到左
   text-align: left;
   position: relative;
+
+  background-size: cover;
+  background-position: center;
 }
 
 .hero-content-wrapper {
@@ -450,22 +526,26 @@ export default {
 .content-container {
   max-width: 1600px;
   margin: 0 auto;
-  padding: 0 60px 60px;
+  // 稍微减小左右边距，把空间留给中间的内容
+  padding: 0 40px 60px;
   margin-top: 50px;
 }
 
 .gallery-grid {
   display: grid;
-  grid-template-columns: 1fr 2.2fr 1fr;
+  // 左右固定 240px (比之前的 280/260 更窄)，中间自适应
+  grid-template-columns: 260px 1fr 260px; 
   gap: 60px;
   align-items: start;
 }
 
 .sticky-col {
   position: sticky;
-  top: 140px;
+  // 这里不再写固定的 top，而是通过 :style 动态绑定
+  // 也不需要 bottom
   height: fit-content;
-  transition: top 0.3s;
+  // 移除 transition，防止计算时的抖动
+  transition: none; 
 }
 
 .grid-col {
@@ -622,9 +702,26 @@ export default {
 }
 
 // === 移动端适配 ===
+@media screen and (max-width: 1200px) {
+  .gallery-grid {
+    grid-template-columns: 220px 1fr 220px;
+    gap: 40px;
+  }
+}
+
 @media screen and (max-width: 1024px) {
-  .gallery-grid { grid-template-columns: 1fr 1fr; }
-  .col-right { display: none; }
+  // 手机/窄屏恢复单列
+  .gallery-grid { 
+    grid-template-columns: 1fr; 
+    gap: 40px;
+  }
+  // 移动端通常取消 sticky，因为高度不够
+  .sticky-col { 
+    position: static; 
+  }
+  .col-right { display: flex; order: 3; }
+  .col-center { order: 2; }
+  .col-left { order: 1; }
 }
 
 @media screen and (max-width: 768px) {
