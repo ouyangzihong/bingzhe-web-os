@@ -54,7 +54,6 @@
             class="img-box portrait-large"
           >
             <img :src="img.src" alt="Main View" />
-            <!-- <div class="image-label" v-if="img.label">{{ img.label }}</div> -->
           </div>
         </main>
 

@@ -18,7 +18,7 @@
           
           <div class="text-content">
             <h3 class="title">{{ project.title }}</h3>
-            <p class="desc">{{ project.desc }}</p>
+            <p class="desc">{{ project.intro }}</p>
             <div class="meta">
               <span>{{ project.location }}</span>
               <span class="divider">|</span>
