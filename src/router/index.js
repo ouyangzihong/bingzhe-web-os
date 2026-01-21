@@ -6,6 +6,7 @@ import ProjectDetail from '../views/ProjectDetail.vue'
 import Contact from '../views/Contact.vue'
 import Products from '../views/Products.vue'
 import SeriesDetail from '../views/SeriesDetail.vue'
+import ProductDetail from '../views/ProductDetail.vue'
 
 // 1. 显式安装路由插件 (这一步就是为了解决 Unknown custom element 报错)
 Vue.use(VueRouter)
@@ -42,6 +43,14 @@ const routes = [
     name: 'SeriesDetail',
     component: SeriesDetail,
     props: true // 允许将路由参数作为 props 传递给组件
+  },
+  // [新增] 具体产品单页详情路由
+  // 我们需要知道它是哪个系列(seriesId)下的哪个产品(itemId)
+  {
+    path: '/products/:seriesId/:itemId',
+    name: 'ProductDetail',
+    component: ProductDetail,
+    props: true
   }
 ]
 

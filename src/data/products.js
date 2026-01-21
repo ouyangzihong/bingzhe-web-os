@@ -1,21 +1,58 @@
 // src/data/products.js
 
 // 模拟六个系列的数据 (Series A - Series F)
+const mockImages = [
+  require('@/assets/images/series/A00103.jpg'),
+  require('@/assets/images/series/B00103.jpg'),
+  require('@/assets/images/series/C00101.jpg')
+];
+
+// 辅助：生成模拟的颜色/变体数据
+const mockVariants = [
+  { name: 'Color 01', image: require('@/assets/images/series/A00103.jpg') },
+  { name: 'Color 02', image: require('@/assets/images/series/B00103.jpg') },
+  { name: 'Color 03', image: require('@/assets/images/series/C00101.jpg') },
+  { name: 'Color 04', image: require('@/assets/images/series/C001S01.jpg') },
+  { name: 'Color 05', image: require('@/assets/images/projects/project1-04.jpg') }
+];
+
+// 辅助：生成模拟的场景应用数据
+const mockApplications = [
+  require('@/assets/images/service-design.jpg'),
+  require('@/assets/images/service-surfaces.jpg'),
+  require('@/assets/images/projects/project1-02.jpg')
+];
 // 辅助函数：生成模拟的子产品列表
 function generateItems(seriesId, count, baseTitleZh, baseTitleEn, typeZh, typeEn) {
   return Array.from({ length: count }).map((_, i) => ({
     id: `${seriesId}-${i + 1}`,
     // 实际项目中每个产品应有不同图片，这里暂时复用占位图或逻辑
     image: require('@/assets/images/series/A00103.jpg'), 
+    // [新增] 详情页共用数据
+    gallery: mockImages, // 首屏轮播图
+    specs: { // 规格参数
+      category: [typeZh, typeEn],
+      composition: ['天然壁纸 / 无纺布衬底', 'Natural wallcovering on non-woven backing'],
+      description: ['手工编织，具有独特的纹理质感。', 'Hand-woven goods with distinct texture created by hand.'],
+      dimensions: ['宽度: 91cm (±3%)', 'Width: 91cm (±3%)'],
+      patternRepeat: ['无对花 / 0cm', 'Free match / 0cm']
+    },
+
+    // [新增] 差异化数据
+    // 如果是 A/B/C 系列，填充 variants；如果是 D/E/F，填充 applications
+    variants: ['A', 'B', 'C'].includes(seriesId.split('-')[1].toUpperCase()) ? mockVariants : [],
+    applications: ['D', 'E', 'F'].includes(seriesId.split('-')[1].toUpperCase()) ? mockApplications : [],
     zh: {
       title: `${baseTitleZh} ${i + 1}`, // 例如：现代私人住宅 1
       location: '中国 上海',
-      type: typeZh
+      type: typeZh,
+      desc:'',
     },
     en: {
       title: `${baseTitleEn} ${i + 1}`, // 例如：Contemporary Residence 1
       location: 'Shanghai, China',
-      type: typeEn
+      type: typeEn,
+      desc:'Here, design forsakes rigid structure for the logic of a textile. The wall system employs a series of soft textures with an intimate touch and subtle sheen, joining together like delicate warp threads to lay a warm, moist foundation for the space. This texture invites touch and gently absorbs sound and light.'
     }
   }));
 }
@@ -25,6 +62,7 @@ export const productsData = [
     id: 'series-a',
     // 封面图
     coverImage: require('@/assets/images/series/A00103.jpg'),
+    templateType: 'variant',// [标识] 使用模版 A (多色)
     
     // 中文数据
     zh: {
@@ -49,6 +87,7 @@ export const productsData = [
   {
     id: 'series-b',
     coverImage: require('@/assets/images/series/B00103.jpg'),
+    templateType: 'variant',// [标识] 使用模版 A (多色)
     zh: {
       seriesName: 'B系列',
       title: '豪华酒店内饰',
@@ -69,6 +108,7 @@ export const productsData = [
   {
     id: 'series-c',
     coverImage: require('@/assets/images/series/C00101.jpg'),
+    templateType: 'variant',// [标识] 使用模版 A (多色)
     zh: {
       seriesName: 'C系列',
       title: '现代私人住宅',
@@ -88,6 +128,7 @@ export const productsData = [
   {
     id: 'series-d',
     coverImage: require('@/assets/images/series/C001S01.jpg'),
+    templateType: 'application', // [标识] 使用模版 D-F (场景)
     zh: {
       seriesName: 'D系列',
       title: '豪华酒店内饰',
@@ -102,11 +143,12 @@ export const productsData = [
       location: 'Dubai, UAE',
       type: 'Hospitality'
     },
-    items:[]
+    items: generateItems('series-e', 4, 'E系列', 'Series E', '家具', 'Furniture')
   },
   {
     id: 'series-e',
     coverImage: require('@/assets/images/projects/project1-04.jpg'),
+    templateType: 'application', // [标识] 使用模版 D-F (场景)
     zh: {
       seriesName: 'E系列',
       title: '现代私人住宅',
@@ -121,7 +163,7 @@ export const productsData = [
       location: 'Shanghai, China',
       type: 'Residential'
     },
-    items:[]
+    items: generateItems('series-d', 6, 'D系列装置', 'Series D Installation', '装置', 'Installation')
   },
   {
     id: 'series-f',
@@ -140,6 +182,6 @@ export const productsData = [
       location: 'Dubai, UAE',
       type: 'Hospitality'
     },
-    items:[]
+    items: generateItems('series-f', 4, 'F系列', 'Series F', '灯具', 'Lighting')
   }
 ];

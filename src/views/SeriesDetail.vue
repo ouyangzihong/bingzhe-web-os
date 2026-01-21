@@ -79,8 +79,15 @@ export default {
   methods: {
     openItemDetail(item) {
       console.log('Open detail for:', item.title);
-      // 未来可以在这里跳转到具体的单品详情页
-      // this.$router.push(`/product-detail/${item.id}`);
+        // [修改] 跳转到 ProductDetail，传递 seriesId 和 itemId
+        // 注意：item.id 格式目前是 "series-a-1"，我们将其作为 itemId
+        this.$router.push({ 
+        name: 'ProductDetail', 
+        params: { 
+            seriesId: this.id, // 当前页面的系列ID (props)
+            itemId: item.id 
+        } 
+        });
     }
   },
   mounted() {
