@@ -59,7 +59,7 @@ export default {
   },
   mounted() {
     gsap.from(this.$refs.navbar, {
-      y: -100, opacity: 0, duration: 1, ease: 'power3.out', delay: 0.5,
+      y: -100, opacity: 0, duration: 1, ease: 'power3.out', delay: 0.2,
       onComplete: () => { gsap.set(this.$refs.navbar, { clearProps: 'transform,opacity' }); }
     });
     window.addEventListener('scroll', this.handleScroll);

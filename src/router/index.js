@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue' // 引入我们在 views 里写的 Home 组件
+import Home from '../views/Home.vue' 
 import Projects from '../views/Projects.vue'
 import ProjectDetail from '../views/ProjectDetail.vue'
-import Contact from '../views/Contact.vue' // 引入组件
+import Contact from '../views/Contact.vue'
+import Products from '../views/Products.vue'
 
 // 1. 显式安装路由插件 (这一步就是为了解决 Unknown custom element 报错)
 Vue.use(VueRouter)
@@ -29,6 +30,11 @@ const routes = [
     name: 'Contact',
     component: Contact
   },
+  {
+    path: '/products',
+    name: 'Products',
+    component: Products
+  }
 ]
 
 const router = new VueRouter({
