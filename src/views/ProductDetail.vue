@@ -543,26 +543,31 @@ export default {
 
 // === 2B. Application Section ===
 .app-section {
-  padding: 80px 0;
+  padding: 40px 0; // [修改] 缩小区域上下内边距 (原 80px)
+
+  // [新增] 单独针对此模块缩小标题下边距
+  .section-title {
+    margin-bottom: 30px; // (原 60px)
+  }
 
   .app-slider {
     width: 100%;
     position: relative;
+    padding: 0 200px; // [新增] 左右留出间距 (数值可按需调整，如 24px 或 60px)
 
     .slider-window {
       width: 100%;
-      height: 60vh;
+      height: auto;      // [修改] 移除固定高度 60vh
+      aspect-ratio: 2/1; // [新增] 锁定长宽比为 2:1
       overflow: hidden;
       position: relative;
-      background-color: #f4f4f4; /* 建议加上背景色，图片加载前不会纯白 */
+      background-color: #f4f4f4;
     }
     .slider-track { display: flex; height: 100%; }
     
     .app-slide {
-      /* [新增] 核心修复：必须给每个幻灯片指定宽度为容器的 100% */
       flex: 0 0 100%; 
       width: 100%;
-      
       position: relative;
       img { width: 100%; height: 100%; object-fit: cover; }
       
@@ -572,11 +577,10 @@ export default {
         color: rgba(255,255,255,0.8);
         font-size: 12px; letter-spacing: 1px;
         text-transform: uppercase;
-        text-shadow: 0 1px 3px rgba(0,0,0,0.5); /* 加个阴影防止背景太亮看不清 */
+        text-shadow: 0 1px 3px rgba(0,0,0,0.5);
       }
     }
     
-    /* 箭头样式保持不变 */
     .big-arrow {
       font-size: 40px;
       color: rgba(255,255,255,0.6);
@@ -700,6 +704,13 @@ export default {
     .value { width: 100%; }
   }
   
-  .app-section .app-slider .slider-window { height: 40vh; }
+ .app-section .app-slider {
+    padding: 0 20px; // 移动端左右间距可以稍微小一点
+    
+    .slider-window { 
+      height: auto; 
+      aspect-ratio: 3/2; 
+    }
+  }
 }
 </style>

@@ -2,18 +2,19 @@
 
 // 模拟六个系列的数据 (Series A - Series F)
 const mockImages = [
-  require('@/assets/images/series/A00103.jpg'),
-  require('@/assets/images/series/B00103.jpg'),
-  require('@/assets/images/series/C00101.jpg')
+  require('@/assets/images/products/seriesA/A00101.jpg'),
+  require('@/assets/images/products/seriesA/A00102.jpg'),
+  require('@/assets/images/products/seriesA/A00103.jpg'),
 ];
 
 // 辅助：生成模拟的颜色/变体数据
 const mockVariants = [
-  { name: 'Color 01', image: require('@/assets/images/series/A00103.jpg') },
-  { name: 'Color 02', image: require('@/assets/images/series/B00103.jpg') },
-  { name: 'Color 03', image: require('@/assets/images/series/C00101.jpg') },
-  { name: 'Color 04', image: require('@/assets/images/series/C001S01.jpg') },
-  { name: 'Color 05', image: require('@/assets/images/projects/project1-04.jpg') }
+  { name: '', image: require('@/assets/images/products/seriesA/A001C01.jpg') },
+  { name: '', image: require('@/assets/images/products/seriesA/A001C02.jpg')  },
+  { name: '', image: require('@/assets/images/products/seriesA/A001C03.jpg') },
+  { name: '', image: require('@/assets/images/products/seriesA/A001C04.jpg') },
+  { name: '', image: require('@/assets/images/products/seriesA/A001C05.jpg')  },
+  { name: '', image: require('@/assets/images/products/seriesA/A001C06.jpg')  }
 ];
 
 // 辅助：生成模拟的场景应用数据
