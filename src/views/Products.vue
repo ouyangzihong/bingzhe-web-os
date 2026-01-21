@@ -58,7 +58,11 @@ export default {
   },
   methods: {
     handleCardClick(id) {
-      console.log('Clicked product:', id);
+        // [修改] 跳转到 SeriesDetail 页面，并传递 id
+        this.$router.push({ 
+        name: 'SeriesDetail', 
+        params: { id: id } 
+        });
     }
   },
   mounted() {

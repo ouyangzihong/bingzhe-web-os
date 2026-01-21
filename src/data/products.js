@@ -1,8 +1,24 @@
 // src/data/products.js
 
 // 模拟六个系列的数据 (Series A - Series F)
-// 这里的图片暂时使用 require 引入现有的资源作为占位
-// 建议后续在 src/assets/images/ 目录下建立 products 文件夹专门存放
+// 辅助函数：生成模拟的子产品列表
+function generateItems(seriesId, count, baseTitleZh, baseTitleEn, typeZh, typeEn) {
+  return Array.from({ length: count }).map((_, i) => ({
+    id: `${seriesId}-${i + 1}`,
+    // 实际项目中每个产品应有不同图片，这里暂时复用占位图或逻辑
+    image: require('@/assets/images/series/A00103.jpg'), 
+    zh: {
+      title: `${baseTitleZh} ${i + 1}`, // 例如：现代私人住宅 1
+      location: '中国 上海',
+      type: typeZh
+    },
+    en: {
+      title: `${baseTitleEn} ${i + 1}`, // 例如：Contemporary Residence 1
+      location: 'Shanghai, China',
+      type: typeEn
+    }
+  }));
+}
 
 export const productsData = [
   {
@@ -26,7 +42,9 @@ export const productsData = [
       desc: 'A calm residential space defined by bespoke wallcovering and tailored soft furnishings.',
       location: 'Shanghai, China',
       type: 'Residential'
-    }
+    },
+    // [新增] 该系列下的具体产品/案例列表
+    items: generateItems('series-a', 8, '现代主义风格', 'Contemporary Style', '住宅', 'Residential')
   },
   {
     id: 'series-b',
@@ -44,7 +62,9 @@ export const productsData = [
       desc: 'A hospitality interior shaped by material-driven design and custom furnishing solutions.',
       location: 'Dubai, UAE',
       type: 'Hospitality'
-    }
+    },
+    // [新增] B系列数据
+    items: generateItems('series-b', 6, '阿布扎比皇宫酒店', 'Abu Dhabi Palace', '酒店', 'Hospitality')
   },
   {
     id: 'series-c',
@@ -62,7 +82,8 @@ export const productsData = [
       desc: 'A calm residential space defined by bespoke wallcovering and tailored soft furnishings.',
       location: 'Shanghai, China',
       type: 'Residential'
-    }
+    },
+    items: generateItems('series-c', 4, '静安豪庭', 'Jingan Villa', '住宅', 'Residential')
   },
   {
     id: 'series-d',
@@ -80,7 +101,8 @@ export const productsData = [
       desc: 'A hospitality interior shaped by material-driven design and custom furnishing solutions.',
       location: 'Dubai, UAE',
       type: 'Hospitality'
-    }
+    },
+    items:[]
   },
   {
     id: 'series-e',
@@ -98,7 +120,8 @@ export const productsData = [
       desc: 'A calm residential space defined by bespoke wallcovering and tailored soft furnishings.',
       location: 'Shanghai, China',
       type: 'Residential'
-    }
+    },
+    items:[]
   },
   {
     id: 'series-f',
@@ -116,6 +139,7 @@ export const productsData = [
       desc: 'A hospitality interior shaped by material-driven design and custom furnishing solutions.',
       location: 'Dubai, UAE',
       type: 'Hospitality'
-    }
+    },
+    items:[]
   }
 ];
