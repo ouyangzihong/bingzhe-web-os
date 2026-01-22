@@ -131,4 +131,27 @@ export default {
     
     viewMore: '查看精选项目'
   },
+  industries: {
+    realScene: '项目实景图',
+    villas: {
+      title: '别墅与豪宅',
+      tags: '私密 / 定制 / 材质驱动',
+      cta: '查看住宅项目'
+    },
+    hotels: {
+      title: '酒店与度假村',
+      tags: '氛围 / 耐用 / 体验',
+      cta: '探索酒店解决方案'
+    },
+    showroom: {
+      title: '销售中心与展厅',
+      tags: '品牌表达 / 视觉冲击',
+      cta: '查看商业项目'
+    },
+    office: {
+      title: '办公与商业空间',
+      tags: '功能 / 身份识别 / 一致性',
+      cta: '发现办公解决方案'
+    }
+  },
 }

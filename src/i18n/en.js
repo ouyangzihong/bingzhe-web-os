@@ -133,4 +133,27 @@ export default {
     
     viewMore: 'View Selected Projects'
   },
+  industries: {
+    realScene: 'Project Real Scene Picture',
+    villas: {
+      title: 'Villas & Luxury Residences',
+      tags: 'Private / Bespoke / Material-driven',
+      cta: 'View Residential Projects'
+    },
+    hotels: {
+      title: 'Hotels & Resorts',
+      tags: 'Atmosphere / Durability / Experience',
+      cta: 'Explore Hospitality Solutions'
+    },
+    showroom: {
+      title: 'Sales Gallery & Showroom',
+      tags: 'Brand Expression / Visual Impact',
+      cta: 'View Commercial Projects'
+    },
+    office: {
+      title: 'Office & Commercial',
+      tags: 'Function / Identity / Consistency',
+      cta: 'Discover Office Solutions'
+    }
+  },
 }

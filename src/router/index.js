@@ -8,6 +8,7 @@ import Products from '../views/Products.vue'
 import SeriesDetail from '../views/SeriesDetail.vue'
 import ProductDetail from '../views/ProductDetail.vue'
 import About from '../views/About.vue'
+import Industries from '../views/Industries.vue'
 
 // 1. 显式安装路由插件 (这一步就是为了解决 Unknown custom element 报错)
 Vue.use(VueRouter)
@@ -42,6 +43,11 @@ const routes = [
     path: '/products',
     name: 'Products',
     component: Products
+  },
+  {
+    path: '/industries', // [新增] 路由路径
+    name: 'Industries',
+    component: Industries
   },
   // [新增] 产品细分详情页路由
   {
