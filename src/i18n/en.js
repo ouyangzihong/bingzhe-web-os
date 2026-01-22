@@ -114,5 +114,23 @@ export default {
     getInTouch: 'Get in Touch',   // 按钮文字
     socialTitle: 'Get in Touch',  // 社交媒体栏标题
     rights: 'All Rights Reserved.'
-  }
+  },
+  about: {
+    title: 'About Living Architecture',
+    intro: 'LIGNE ATELIER is not just a design studio; it is a laboratory of living. We believe that space is an extension of the self, and materials are the language of emotions.',
+    
+    // 对应设计稿中间的文本段落
+    philosophy: {
+      title: 'Our Philosophy',
+      content: 'Design acts as a bridge between human perception and physical space. We discard rigid templates in favor of a narrative-driven approach. By orchestrating light, texture, and form, we create environments that breathe—spaces that are not merely seen, but deeply felt.'
+    },
+
+    // 对应设计稿下方的文本段落
+    craft: {
+      title: 'Craft & Detail',
+      content: 'True luxury lies in the unseen details. From the tactile warmth of a hand-woven fabric to the precision of a joinery detail, every element is curated to harmonize with the whole. We collaborate with global artisans to bring bespoke solutions that stand the test of time.'
+    },
+    
+    viewMore: 'View Selected Projects'
+  },
 }

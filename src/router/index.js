@@ -7,6 +7,7 @@ import Contact from '../views/Contact.vue'
 import Products from '../views/Products.vue'
 import SeriesDetail from '../views/SeriesDetail.vue'
 import ProductDetail from '../views/ProductDetail.vue'
+import About from '../views/About.vue'
 
 // 1. 显式安装路由插件 (这一步就是为了解决 Unknown custom element 报错)
 Vue.use(VueRouter)
@@ -16,6 +17,11 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: About
   },
   {
     path: '/projects',
