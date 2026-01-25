@@ -100,6 +100,13 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 80px 5%;
+  background-image: url('~@/assets/images/home/Home003.webp'); 
+  background-size: cover;
+  background-position: center;
+    &::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.2); z-index: 1;
+  }
 }
 
 .content-wrapper {
@@ -109,6 +116,7 @@ export default {
   flex-direction: column;
   height: 80%;
   justify-content: space-evenly;
+  z-index: 2
 }
 
 // ... 保持原有的 stat-item 和 timeline-row 样式不变 ...

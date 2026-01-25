@@ -47,10 +47,10 @@ import TheNavbar from '@/components/common/TheNavbar.vue';
 import TheFooter from '@/components/common/TheFooter.vue';
 
 // 引入图片资源
-import imgVillas from '@/assets/images/industries/industry-villas.jpg'
-import imgHotels from '@/assets/images/industries/industry-hotels.jpg'
-import imgShowroom from '@/assets/images/industries/industry-showroom.jpg'
-import imgOffice from '@/assets/images/industries/industry-office.jpg'
+import imgVillas from '@/assets/images/industries/Industries001.webp'
+import imgHotels from '@/assets/images/industries/Industries002.webp'
+import imgShowroom from '@/assets/images/industries/Industries003.webp'
+import imgOffice from '@/assets/images/industries/Industries004.webp'
 
 export default {
   name: 'Industries',
@@ -151,7 +151,7 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.35);
+    background: rgba(0, 0, 0, 0.15);
     z-index: 1;
   }
 

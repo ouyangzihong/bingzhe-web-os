@@ -42,7 +42,13 @@ $text-gray: #b0b0b0;
   justify-content: center;
   position: relative;
   overflow: hidden;
-
+  background-image: url('~@/assets/images/home/Home004.webp'); 
+  background-size: cover;
+  background-position: center;
+  &::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.2); z-index: 1;
+  }
   .container {
     width: 100%;
     height: 100%;
@@ -53,6 +59,7 @@ $text-gray: #b0b0b0;
     max-width: 1600px;
     margin: 0 auto;
     box-sizing: border-box;
+    z-index: 5
   }
 }
 

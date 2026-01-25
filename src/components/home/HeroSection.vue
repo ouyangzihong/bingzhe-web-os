@@ -46,13 +46,13 @@ export default {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  background-image: url('~@/assets/images/home-bg.jpg'); 
+  background-image: url('~@/assets/images/home/Home001.webp'); 
   background-size: cover;
   background-position: center;
   
   &::before {
     content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.3); z-index: 1;
+    background-color: rgba(0, 0, 0, 0); z-index: 1;
   }
 }
 

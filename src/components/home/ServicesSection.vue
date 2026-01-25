@@ -17,8 +17,8 @@
 
 <script>
 import gsap from 'gsap';
-import bgDesign from '@/assets/images/service-design.jpg';
-import bgSurfaces from '@/assets/images/service-surfaces.jpg';
+import bgDesign from '@/assets/images/home/Home002-01.webp';
+import bgSurfaces from '@/assets/images/home/Home002-02.webp';
 
 export default {
   name: 'ServicesSection',

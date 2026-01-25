@@ -34,7 +34,7 @@
         >
           <div class="content-wrapper">
             <div v-for="(item, i) in currentProject.leftContent" :key="i" class="left-item">
-              <p v-if="item.type === 'text'" class="text-para">{{ item.content }}</p>
+              <p v-if="item.type === 'text'" class="text-para" v-html="item.content"></p>
               <!-- <div v-else-if="item.type === 'image'" class="img-box small-square">
                 <img :src="item.src" alt="Context" />
                 <span class="caption" v-if="item.caption">{{ item.caption }}</span>
